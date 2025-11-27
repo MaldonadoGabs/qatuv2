@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qatu - Panel Vendedor</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/public/images/isotipo-qatu-svg.svg"
+    />
+    <link rel="stylesheet" href="/src/styles/style.css" />
+    <link rel="stylesheet" href="/src/styles/dashboard-vendedor.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&family=Stack+Sans+Text:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="/dist/dashboard-vendedor.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo">
+        <img src="/public/images/logo-qatu-rojo.png" alt="Logotipo Qatu" />
+      </div>
+      <div id="login">
+        <button class="btn-login">
+          Mi Cuenta
+        </button>
+        <button class="btn-cerrar-sesion" id="btn-cerrar-sesion">
+          Cerrar Sesión
+        </button>
+      </div>
+    </header>
+    <nav>
+      <div class="barra-navegacion">
+        <ul>
+          <li class="nav-item" id="nav-publicar">Publicar</li>
+          <li class="nav-item" id="nav-estadisticas">Estadísticas</li>
+          <li class="nav-item" id="nav-resenas">Reseñas</li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Sección Publicar -->
+    <section class="seccion-vendedor active" id="seccion-publicar">
+      <div class="contenedor-seccion">
+        <h2>Publicar Nuevo Producto</h2>
+        <form class="form-publicar" id="form-producto">
+          <div class="form-group">
+            <label for="nombre-producto">Nombre del Producto <span class="required">*</span></label>
+            <input type="text" id="nombre-producto" name="nombre-producto" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="precio-producto">Precio <span class="required">*</span></label>
+              <input type="number" id="precio-producto" name="precio-producto" step="0.01" min="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="categoria-producto">Categoría <span class="required">*</span></label>
+              <select id="categoria-producto" name="categoria-producto" required>
+                <option value="">Seleccionar...</option>
+                <option value="electronicos">Electrónicos</option>
+                <option value="hogar">Hogar</option>
+                <option value="ropa">Ropa</option>
+                <option value="belleza">Belleza</option>
+                <option value="deportes">Deportes</option>
+                <option value="libros">Libros</option>
+                <option value="juguetes">Juguetes</option>
+                <option value="alimentos">Alimentos</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descripcion-producto">Descripción <span class="required">*</span></label>
+            <textarea id="descripcion-producto" name="descripcion-producto" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="imagen-producto">Imagen del Producto <span class="required">*</span></label>
+            <input type="file" id="imagen-producto" name="imagen-producto" accept="image/jpeg,image/jpg,image/png,image/webp" required />
+            <small style="color: #666; font-size: 0.9rem; margin-top: 5px; display: block;">
+              Formatos permitidos: JPG, JPEG, PNG, WEBP. Tamaño máximo: 5MB
+            </small>
+            <div id="preview-imagen" style="margin-top: 10px; display: none;">
+              <img id="imagen-preview" src="" alt="Vista previa" style="max-width: 200px; max-height: 200px; border-radius: 10px; border: 2px solid #e0e0e0;">
+            </div>
+          </div>
+          <button type="submit" class="btn-submit-vendedor">Publicar Producto</button>
+        </form>
+        
+        <div class="productos-publicados">
+          <h3>Mis Productos Publicados</h3>
+          <div id="lista-productos" class="lista-productos">
+            <p class="mensaje-vacio">Aún no has publicado ningún producto</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Sección Estadísticas -->
+    <section class="seccion-vendedor" id="seccion-estadisticas">
+      <div class="contenedor-seccion">
+        <h2>Estadísticas de Ventas</h2>
+        
+        <!-- Filtro de periodo -->
+        <div class="filtro-periodo">
+          <label for="select-periodo">Periodo:</label>
+          <select id="select-periodo" class="select-periodo">
+            <option value="semana">Última semana</option>
+            <option value="mes" selected>Último mes</option>
+            <option value="año">Último año</option>
+            <option value="todo">Todo el tiempo</option>
+          </select>
+        </div>
+
+        <!-- Resumen general -->
+        <div class="estadisticas-grid">
+          <div class="stat-card">
+            <h3>Productos Publicados</h3>
+            <p class="stat-numero" id="stat-productos">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Ventas Totales</h3>
+            <p class="stat-numero" id="stat-ventas">$0.00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Productos Vendidos</h3>
+            <p class="stat-numero" id="stat-vendidos">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Calificación Promedio</h3>
+            <p class="stat-numero" id="stat-calificacion">⭐ 0.0</p>
+          </div>
+        </div>
+
+        <!-- Lista de productos con ventas -->
+        <div class="ventas-por-producto">
+          <h3>Ventas por Producto</h3>
+          <div id="lista-ventas-productos" class="lista-ventas-productos">
+            <p class="mensaje-vacio">No hay ventas en este periodo</p>
+          </div>
+        </div>
+
+        <!-- Detalle de producto seleccionado -->
+        <div id="detalle-producto-ventas" class="detalle-producto-ventas" style="display: none;">
+          <div class="detalle-header">
+            <h3 id="detalle-titulo">Detalle de Ventas</h3>
+            <button class="btn-cerrar-detalle" id="btn-cerrar-detalle">&times;</button>
+          </div>
+          <div class="detalle-content">
+            <div class="detalle-producto-info">
+              <img id="detalle-imagen" src="" alt="" />
+              <div class="detalle-info-text">
+                <h4 id="detalle-nombre"></h4>
+                <p id="detalle-precio"></p>
+                <span id="detalle-categoria"></span>
+              </div>
+            </div>
+            <div class="detalle-stats-grid">
+              <div class="detalle-stat">
+                <span class="detalle-label">Unidades vendidas</span>
+                <span class="detalle-valor" id="detalle-unidades">0</span>
+              </div>
+              <div class="detalle-stat">
+                <span class="detalle-label">Ingresos totales</span>
+                <span class="detalle-valor" id="detalle-ingresos">$0.00</span>
+              </div>
+              <div class="detalle-stat">
+                <span class="detalle-label">Número de ventas</span>
+                <span class="detalle-valor" id="detalle-num-ventas">0</span>
+              </div>
+              <div class="detalle-stat">
+                <span class="detalle-label">Última venta</span>
+                <span class="detalle-valor" id="detalle-ultima-venta">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Sección Reseñas -->
+    <section class="seccion-vendedor" id="seccion-resenas">
+      <div class="contenedor-seccion">
+        <h2>Reseñas de Clientes</h2>
+        <div id="lista-resenas" class="lista-resenas">
+          <p class="mensaje-vacio">Aún no tienes reseñas</p>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
