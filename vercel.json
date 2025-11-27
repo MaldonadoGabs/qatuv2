@@ -1,12 +1,34 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".",
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/src/styles/:path*", "destination": "/src/styles/:path*" },
-    { "source": "/src/pages/:path*", "destination": "/src/pages/:path*" },
-    { "source": "/public/:path*", "destination": "/public/:path*" },
-    { "source": "/dist/:path*", "destination": "/dist/:path*" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "."
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/src/styles/(.*)",
+      "dest": "/src/styles/$1"
+    },
+    {
+      "src": "/src/pages/(.*)",
+      "dest": "/src/pages/$1"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/dist/(.*)",
+      "dest": "/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
   ]
 }
